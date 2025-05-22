@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "==2.2.2"
+marshmallow-sqlalchemy = "==0.24.1"
+connexion = {extras = ["swagger-ui"], version = "*"}
+werkzeug = "==2.2.2"
+setuptools = "*"
+flask-marshmallow = "==0.14.0"
+flask-sqlalchemy = "==3.1.1"
+mysqlclient = "*"
+flask-restful = "*"
+flasgger = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.13"

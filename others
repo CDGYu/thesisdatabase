@@ -1,0 +1,58 @@
+@app.route('/user', methods=['GET'])
+def get_user_by_last_name():
+    """
+    Get user(s) by last name
+    ---
+    tags:
+      - Users
+    parameters:
+      - name: last_name
+        in: query
+        type: string
+        required: true
+        description: Last name of the user to search for
+    responses:
+      200:
+        description: A list of users with the given last name
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              user_id:
+                type: integer
+              first_name:
+                type: string
+              last_name:
+                type: string
+              email_address:
+                type: string
+              contact_number:
+                type: string
+              user_birthday:
+                type: string
+                format: date
+      404:
+        description: No users found
+    """
+    last_name = request.args.get('last_name')
+
+    if not last_name:
+        return jsonify({'error': 'last_name parameter is required'}), 400
+
+    users = Users.query.filter_by(last_name=last_name).all()
+
+    if not users:
+        return jsonify({'error': 'No users found'}), 404
+
+    return jsonify([
+        {
+            "user_id": user.user_id,
+            "first_name": user.first_name,
+            "last_name": user.last_name,
+            "email_address": user.email_address,
+            "contact_number": user.contact_number,
+            "user_birthday": user.user_birthday.isoformat() if user.user_birthday else None
+        }
+        for user in users
+    ]), 200
